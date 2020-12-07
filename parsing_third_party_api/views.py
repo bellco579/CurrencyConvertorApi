@@ -47,11 +47,11 @@ class CurrencyViewSet(APIView):
 
     @csrf_exempt
     def post(self, request, format=None):
-        date = self.request.POST.get("date", None)
         date = self.get_queryset()["date"]
-        print(date)
-        validate(date)
+
         if date is not None:
+            print(date)
+            validate(date)
             try:
                 Parser(date=date).parse()
             except:

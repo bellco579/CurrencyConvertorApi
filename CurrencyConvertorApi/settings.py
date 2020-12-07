@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'ul_(p3&vb+r45h*$#^eh_g!aqsrt!v@04cteowuveesks(=b!r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["currensy.ru","localhost"]
 
