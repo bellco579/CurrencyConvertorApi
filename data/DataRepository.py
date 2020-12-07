@@ -1,9 +1,7 @@
-import json
-
 import pandas
 
-from data.Db.PandasCharCodeController import PandasCharCodeController
-from data.Db.PandasCurrencyContrller import PandasCurrencyController
+from json_db.PandasCharCodeController import PandasCharCodeController
+from json_db.PandasCurrencyContrller import PandasCurrencyController
 
 
 class DateRepository:

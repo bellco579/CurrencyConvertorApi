@@ -25,3 +25,4 @@ class PandasCurrencyController:
     def load_json(self):
         with open(self.path) as js_file:
             return json.load(js_file)
+

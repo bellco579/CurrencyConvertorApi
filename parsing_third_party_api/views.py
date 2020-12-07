@@ -1,16 +1,13 @@
 import json
 
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import viewsets, permissions, status
-from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from data.parser.every_day_parser import Parser
 from .deserializer.CurrencyDeserializer import CurrencyDeserializer
-from .models import CurrencyModel
 from data.DataRepository import DateRepository
 import datetime
-
 
 # Create your views here.
 class CurrencyViewSet(APIView):
@@ -48,11 +45,13 @@ class CurrencyViewSet(APIView):
 
     @csrf_exempt
     def post(self, request, format=None):
-        if request.POST != None:
-            data = request.POST["json"]
-            print(data)
-            new_model = CurrencyDeserializer(data).create_model()
-            print(new_model)
-            return HttpResponse("done")
+        Parser().parse()
+        # if request.POST != None:
+        #
+            # data = request.POST["json"]
+            # print(data)
+            # new_model = CurrencyDeserializer(data).create_model()
+            # print(new_model)
+            # return HttpResponse("done")
 
         return HttpResponse(str(request))
