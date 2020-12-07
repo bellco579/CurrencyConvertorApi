@@ -9,6 +9,7 @@ from .deserializer.CurrencyDeserializer import CurrencyDeserializer
 from data.DataRepository import DateRepository
 import datetime
 
+
 # Create your views here.
 class CurrencyViewSet(APIView):
     """
@@ -21,7 +22,7 @@ class CurrencyViewSet(APIView):
         request_type = query_params.get('type', None)
 
         if date == "today":
-            date = datetime.datetime.today().date()
+            date = str(datetime.datetime.today().date())
 
         data_query = {"date": date, "type": request_type}
         return data_query
@@ -37,6 +38,7 @@ class CurrencyViewSet(APIView):
         if qset["type"] == "charCode":
             return HttpResponse(json.dumps(data.load_char_codes()))
         if qset["date"] is not None:
+            validate(qset["date"])
             rates = data.get_by_date_in_json(qset["date"])
         else:
             rates = data.load_as_json()
@@ -45,13 +47,21 @@ class CurrencyViewSet(APIView):
 
     @csrf_exempt
     def post(self, request, format=None):
-        Parser().parse()
-        # if request.POST != None:
-        #
-            # data = request.POST["json"]
-            # print(data)
-            # new_model = CurrencyDeserializer(data).create_model()
-            # print(new_model)
-            # return HttpResponse("done")
+        date = self.request.POST.get("date", None)
+        validate(date)
+        if date is not None:
+            try:
+                Parser(date=date).parse()
+            except:
+                pass
+        else:
+            Parser().parse()
+        return HttpResponse("Ok")
 
-        return HttpResponse(str(request))
+
+def validate(date_text):
+    try:
+        datetime.datetime.strptime(date_text, '%Y-%m-%d')
+    except ValueError:
+        print("date validate error")
+        raise ValueError("Incorrect data format, should be YYYY-MM-DD")

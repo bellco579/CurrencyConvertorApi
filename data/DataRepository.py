@@ -1,5 +1,6 @@
 import pandas
 
+from data.parser.every_day_parser import Parser
 from json_db.PandasCharCodeController import PandasCharCodeController
 from json_db.PandasCurrencyContrller import PandasCurrencyController
 
@@ -26,8 +27,9 @@ class DateRepository:
         try:
             rates = json_value[date]
         except:
-            index = list(json_value)[-1]
-            rates = json_value[index]
+            rates = Parser(date).parse()
+            # index = list(json_value)[-1]
+            # rates = json_value[index]
         obj = {str(date): rates}
         return obj
 

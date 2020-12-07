@@ -45,6 +45,7 @@ class Parser:
         self.currency_df[self.today] = series
         self.currency_df = sort_df(self.currency_df)
         self.save()
+        return json_data
 
     def fetch_downloaded_json_rates(self):
         return self.download_rate_by_date.fetch_data()
