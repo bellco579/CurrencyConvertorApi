@@ -52,6 +52,7 @@ class CurrencyViewSet(APIView):
         if date is not None:
             print(date)
             validate(date)
+
             try:
                 Parser(date=date).parse()
             except:
