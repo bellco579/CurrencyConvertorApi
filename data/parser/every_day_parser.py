@@ -1,4 +1,5 @@
 import datetime
+import time
 
 import pandas
 
@@ -24,7 +25,7 @@ def sort_df(df):
 
     for date in res:
         try:
-            df_new[date] = df[date]
+            df_new[str(date)] = df[date]
         except:
             pass
     # %%
@@ -40,9 +41,7 @@ class Parser:
 
     def parse(self):
         json_data = self.fetch_downloaded_json_rates()["rates"]
-        self.load_df()
-        series = pandas.Series(json_data)
-        self.currency_df[self.today] = series
+        self.currency_df[self.today] = json_data
         self.currency_df = sort_df(self.currency_df)
         self.save()
         return json_data
@@ -51,7 +50,7 @@ class Parser:
         return self.download_rate_by_date.fetch_data()
 
     def load_df(self):
-        return self.currency_db_controller.load()
+        return self.currency_db_controller.load_json()
 
     def save(self):
-        self.currency_db_controller.save(self.currency_df)
+        self.currency_db_controller.save_json(self.currency_df)
